@@ -1,8 +1,10 @@
-// const numbers = [2, 1, 4];
+const numbers = [2, 1, 4];
 
-// const filteredNumbers = numbers.filter((value) => value >= 3);
+// const filteredNumbers =
+numbers.filter((value) => value >= 3);
 
-// console.log(filteredNumbers);
+// console.log(filteredNumbers, numbers);
+console.log(numbers);
 
 const user = [
   {
