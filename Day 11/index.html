@@ -1,0 +1,89 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body class="container p-4">
+    <form>
+      <h3>Todo List</h3>
+      <input type="text" id="inputField" class="form-control" />
+      <center>
+        <button onclick="addTodo(event)" class="btn btn-success mt-4">
+          Add Todo
+        </button>
+      </center>
+    </form>
+    <hr />
+
+    <div id="container" class="mt-5 p-4"></div>
+  </body>
+
+  <script>
+    var todoList = [];
+    const inputField = document.getElementById("inputField");
+    const container = document.getElementById("container");
+
+    function init() {
+      //reads data from localStorage API.
+      todoList = JSON.parse(localStorage.getItem("todoList"));
+
+      //after reading data; render the list on screen
+      renderList();
+    }
+
+    //intialize the script with data.
+    init();
+
+    function addTodo(event) {
+      event.preventDefault();
+
+      todoList.push({
+        data: inputField.value,
+        date: Date(),
+      });
+      inputField.value = "";
+
+      localStorage.setItem("todoList", JSON.stringify(todoList));
+      renderList();
+    }
+
+    function renderList() {
+      container.innerHTML = "";
+      todoList.forEach((todo, index) => {
+        container.innerHTML += `
+
+          <div class="alert alert-success">
+            <h3  
+            style="cursor:pointer" onclick="deleteTodo(${index})">${todo.data}</h3>
+            <small>${todo.date}</small>
+          </div>
+          
+          `;
+      });
+    }
+
+    function deleteTodo(idx) {
+      var input = confirm("Do you want to delete TODO ? ");
+
+      if (input) {
+        todoList = todoList.filter((value, index) => index != idx);
+
+        localStorage.setItem("todoList", JSON.stringify(todoList));
+        renderList();
+      }
+    }
+  </script>
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+    crossorigin="anonymous"
+  ></script>
+</html>
